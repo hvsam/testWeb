@@ -1,59 +1,74 @@
-```css
-body{
+body {
     font-family: Arial, sans-serif;
-    margin:20px;
+    margin: 20px;
+    background: #f5f5f5;
 }
 
-h2{
-    margin-bottom:15px;
+h2 {
+    margin-bottom: 10px;
 }
 
-#employeeTable{
-    width:100%;
-    border-collapse:collapse;
-    margin-bottom:20px;
+.detail-panel {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.photo-panel {
+    width: 220px;
+}
+
+.photo-panel img {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    border: 1px solid #999;
+}
+
+.info-panel {
+    flex: 1;
+}
+
+.info-panel label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.info-panel input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#employeeTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+#employeeTable th {
+    background: #eaeaea;
 }
 
 #employeeTable th,
-#employeeTable td{
-    border:1px solid #ccc;
-    padding:8px;
+#employeeTable td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
 }
 
-#employeeTable tr:hover{
-    background:#f0f0f0;
-    cursor:pointer;
+#employeeTable tbody tr {
+    cursor: pointer;
 }
 
-.detail-panel{
-    display:flex;
-    gap:20px;
+#employeeTable tbody tr:hover {
+    background: #e6f2ff;
 }
 
-.photo-panel{
-    width:220px;
+.selected-row {
+    background: #cfe8ff !important;
 }
-
-.photo-panel img{
-    width:200px;
-    height:250px;
-    object-fit:cover;
-    border:1px solid #999;
-}
-
-.info-panel{
-    flex:1;
-}
-
-.info-panel label{
-    display:block;
-    margin-top:10px;
-    font-weight:bold;
-}
-
-.info-panel input{
-    width:100%;
-    padding:8px;
-    box-sizing:border-box;
-}
-```
