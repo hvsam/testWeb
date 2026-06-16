@@ -1,50 +1,59 @@
+```css
 body{
-    margin:0;
-    padding:20px;
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
+    font-family: Arial, sans-serif;
+    margin:20px;
 }
 
-.container{
-    max-width:900px;
-    margin:auto;
+h2{
+    margin-bottom:15px;
 }
 
-h1{
-    text-align:center;
+#employeeTable{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:20px;
 }
 
-input{
-    width:70%;
-    padding:10px;
-    font-size:16px;
+#employeeTable th,
+#employeeTable td{
+    border:1px solid #ccc;
+    padding:8px;
 }
 
-button{
-    padding:10px 20px;
-    font-size:16px;
+#employeeTable tr:hover{
+    background:#f0f0f0;
     cursor:pointer;
 }
 
-.card{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:8px;
-    padding:15px;
-    margin-top:15px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
+.detail-panel{
+    display:flex;
+    gap:20px;
 }
 
-.card div{
-    margin:8px 0;
+.photo-panel{
+    width:220px;
 }
 
-.notfound{
-    color:red;
-    margin-top:20px;
+.photo-panel img{
+    width:200px;
+    height:250px;
+    object-fit:cover;
+    border:1px solid #999;
 }
 
-.error{
-    color:red;
+.info-panel{
+    flex:1;
+}
+
+.info-panel label{
+    display:block;
+    margin-top:10px;
     font-weight:bold;
 }
+
+.info-panel input{
+    width:100%;
+    padding:8px;
+    box-sizing:border-box;
+}
+```
