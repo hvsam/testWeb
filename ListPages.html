@@ -1,135 +1,173 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Nhân Viên</title>
 
-<title>ListPages</title>
+    <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
+
 <body>
 
-<h2>Danh sách nhân viên</h2>
+    <h2>Thông Tin Nhân Viên</h2>
 
-<table id="employeeTable">
-    <thead>
-        <tr>
-            <th>MNV</th>
-            <th>HỌ VÀ TÊN</th>
-            <th>NGÀY SINH</th>
-            <th>CĂN CƯỚC</th>
-            <th>ĐIỆN THOẠI</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <div class="detail-panel">
 
-<div class="detail-panel">
+        <div class="photo-panel">
+            <img id="photo" src="" alt="No Image">
+        </div>
 
-    <div class="photo-panel">
-        <img id="photo" src="" alt="No Image">
-    </div>
+        <div class="info-panel">
 
-    <div class="info-panel">
+            <label>MNV</label>
+            <input type="text" id="txtMNV" readonly>
 
-        <label>MNV</label>
-        <input type="text" id="txtMNV" readonly>
+            <label>HỌ VÀ TÊN</label>
+            <input type="text" id="txtName" readonly>
 
-        <label>HỌ VÀ TÊN</label>
-        <input type="text" id="txtName" readonly>
+            <label>NGÀY SINH</label>
+            <input type="text" id="txtBirth" readonly>
 
-        <label>NGÀY SINH</label>
-        <input type="text" id="txtBirth" readonly>
+            <label>CĂN CƯỚC</label>
+            <input type="text" id="txtCCCD" readonly>
 
-        <label>CĂN CƯỚC</label>
-        <input type="text" id="txtCCCD" readonly>
+            <label>ĐIỆN THOẠI</label>
+            <input type="text" id="txtPhone" readonly>
 
-        <label>ĐIỆN THOẠI</label>
-        <input type="text" id="txtPhone" readonly>
+        </div>
 
     </div>
 
-</div>
+    <h2>Danh Sách Nhân Viên</h2>
 
-<script>
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>MNV</th>
+                <th>HỌ VÀ TÊN</th>
+                <th>NGÀY SINH</th>
+                <th>CĂN CƯỚC</th>
+                <th>ĐIỆN THOẠI</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-let employees = [];
+    <script>
 
-loadExcel();
+        let employees = [];
 
-async function loadExcel()
-{
-    const response = await fetch("dataExcel.xlsx");
+        loadExcel();
 
-    const data = await response.arrayBuffer();
+        async function loadExcel() {
 
-    const workbook = XLSX.read(data);
+            try {
 
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const response = await fetch("dataExcel.xlsx");
 
-    employees = XLSX.utils.sheet_to_json(sheet);
+                const data = await response.arrayBuffer();
 
-    buildTable();
-}
+                const workbook = XLSX.read(data);
 
-function buildTable()
-{
-    const tbody = document.querySelector("#employeeTable tbody");
+                const sheet =
+                    workbook.Sheets[workbook.SheetNames[0]];
 
-    employees.forEach(emp =>
-    {
-        const tr = document.createElement("tr");
+                employees =
+                    XLSX.utils.sheet_to_json(sheet);
 
-        tr.innerHTML = `
-            <td>${emp["MNV"] || ""}</td>
-            <td>${emp["HỌ VÀ TÊN"] || ""}</td>
-            <td>${emp["NGÀY SINH"] || ""}</td>
-            <td>${emp["CĂN CƯỚC"] || ""}</td>
-            <td>${emp["ĐIỆN THOẠI"] || ""}</td>
-        `;
+                buildTable();
 
-        tr.addEventListener("click", () =>
-        {
-            showEmployee(emp);
-        });
+            }
+            catch (error) {
 
-        tbody.appendChild(tr);
-    });
+                console.error(error);
 
-    if(employees.length > 0)
-    {
-        showEmployee(employees[0]);
-    }
-}
+                alert("Không đọc được file dataExcel.xlsx");
+            }
+        }
 
-function showEmployee(emp)
-{
-    document.getElementById("txtMNV").value =
-        emp["MNV"] || "";
+        function buildTable() {
 
-    document.getElementById("txtName").value =
-        emp["HỌ VÀ TÊN"] || "";
+            const tbody =
+                document.querySelector("#employeeTable tbody");
 
-    document.getElementById("txtBirth").value =
-        emp["NGÀY SINH"] || "";
+            tbody.innerHTML = "";
 
-    document.getElementById("txtCCCD").value =
-        emp["CĂN CƯỚC"] || "";
+            employees.forEach(emp => {
 
-    document.getElementById("txtPhone").value =
-        emp["ĐIỆN THOẠI"] || "";
+                const tr =
+                    document.createElement("tr");
 
-    const img =
-        "images/" + emp["MNV"] + ".jpg";
+                tr.innerHTML = `
+                    <td>${emp["MNV"] || ""}</td>
+                    <td>${emp["HỌ VÀ TÊN"] || ""}</td>
+                    <td>${emp["NGÀY SINH"] || ""}</td>
+                    <td>${emp["CĂN CƯỚC"] || ""}</td>
+                    <td>${emp["ĐIỆN THOẠI"] || ""}</td>
+                `;
 
-    document.getElementById("photo").src = img;
-}
-</script>
+                tr.addEventListener("click", () => {
+
+                    document
+                        .querySelectorAll("#employeeTable tbody tr")
+                        .forEach(r =>
+                            r.classList.remove("selected-row"));
+
+                    tr.classList.add("selected-row");
+
+                    showEmployee(emp);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            if (employees.length > 0) {
+
+                tbody.rows[0].classList.add("selected-row");
+
+                showEmployee(employees[0]);
+            }
+        }
+
+        function showEmployee(emp) {
+
+            document.getElementById("txtMNV").value =
+                emp["MNV"] || "";
+
+            document.getElementById("txtName").value =
+                emp["HỌ VÀ TÊN"] || "";
+
+            document.getElementById("txtBirth").value =
+                emp["NGÀY SINH"] || "";
+
+            document.getElementById("txtCCCD").value =
+                emp["CĂN CƯỚC"] || "";
+
+            document.getElementById("txtPhone").value =
+                emp["ĐIỆN THOẠI"] || "";
+
+            const photo =
+                "images/" + emp["MNV"] + ".jpg";
+
+            const img =
+                document.getElementById("photo");
+
+            img.onerror = function () {
+
+                this.src =
+                    "https://via.placeholder.com/200x250?text=No+Photo";
+            };
+
+            img.src = photo;
+        }
+
+    </script>
 
 </body>
+
 </html>
-```
