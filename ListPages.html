@@ -161,20 +161,15 @@ function formatDate(value)
 
 function showEmployee(emp)
 {
-    document.getElementById("txtMNV").value =
-        emp["MNV"] || "";
+    document.getElementById("txtMNV").value =        emp["MNV"] || "";
 
-    document.getElementById("txtName").value =
-        emp["HỌ VÀ TÊN"] || "";
+    document.getElementById("txtName").value =        emp["HỌ VÀ TÊN"] || "";
 
-    document.getElementById("txtBirth").value =
-        formatDate(emp["NGÀY SINH"]);
+    document.getElementById("txtBirth").value =        formatDate(emp["NGÀY SINH"]);
 
-    document.getElementById("txtCCCD").value =
-        emp["CĂN CƯỚC"] || "";
+    document.getElementById("txtCCCD").value =        emp["CĂN CƯỚC"] || "";
 
-    document.getElementById("txtPhone").value =
-        emp["ĐIỆN THOẠI"] || "";
+    document.getElementById("txtPhone").value =        emp["ĐIỆN THOẠI"] || "";
 
     const photo = "images/" + emp["MNV"] + ".jpg";
 
