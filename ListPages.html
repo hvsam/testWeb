@@ -134,37 +134,60 @@
             }
         }
 
-        function showEmployee(emp) {
+function formatDate(value)
+{
+    if (!value) return "";
 
-            document.getElementById("txtMNV").value =
-                emp["MNV"] || "";
+    if (typeof value === "number")
+    {
+        const date = XLSX.SSF.parse_date_code(value);
 
-            document.getElementById("txtName").value =
-                emp["HỌ VÀ TÊN"] || "";
+        return String(date.d).padStart(2, "0") + "/" +
+               String(date.m).padStart(2, "0") + "/" +
+               date.y;
+    }
 
-            document.getElementById("txtBirth").value =
-                emp["NGÀY SINH"] || "";
+    const d = new Date(value);
 
-            document.getElementById("txtCCCD").value =
-                emp["CĂN CƯỚC"] || "";
+    if (!isNaN(d))
+    {
+        return String(d.getDate()).padStart(2, "0") + "/" +
+               String(d.getMonth() + 1).padStart(2, "0") + "/" +
+               d.getFullYear();
+    }
 
-            document.getElementById("txtPhone").value =
-                emp["ĐIỆN THOẠI"] || "";
+    return value;
+}
 
-            const photo =
-                "images/" + emp["MNV"] + ".jpg";
+function showEmployee(emp)
+{
+    document.getElementById("txtMNV").value =
+        emp["MNV"] || "";
 
-            const img =
-                document.getElementById("photo");
+    document.getElementById("txtName").value =
+        emp["HỌ VÀ TÊN"] || "";
 
-            img.onerror = function () {
+    document.getElementById("txtBirth").value =
+        formatDate(emp["NGÀY SINH"]);
 
-                this.src =
-                    "https://via.placeholder.com/200x250?text=No+Photo";
-            };
+    document.getElementById("txtCCCD").value =
+        emp["CĂN CƯỚC"] || "";
 
-            img.src = photo;
-        }
+    document.getElementById("txtPhone").value =
+        emp["ĐIỆN THOẠI"] || "";
+
+    const photo = "images/" + emp["MNV"] + ".jpg";
+
+    const img = document.getElementById("photo");
+
+    img.onerror = function ()
+    {
+        this.src =
+            "https://via.placeholder.com/200x250?text=No+Photo";
+    };
+
+    img.src = photo;
+}
 
     </script>
 
