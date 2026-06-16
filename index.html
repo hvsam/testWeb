@@ -1,143 +1,62 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra cứu nhân viên</title>
+    <title>Home Page</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+        body{
+            margin:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:Arial, sans-serif;
+            background:#f5f5f5;
+        }
+
+        .container{
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:30px;
+        }
+
+        button{
+            padding:15px 40px;
+            font-size:20px;
+            cursor:pointer;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>TRA CỨU NHÂN VIÊN</h1>
+        <h1>HỆ THỐNG QUẢN LÝ NHÂN VIÊN</h1>
 
-    <input
-        type="text"
-        id="txtSearch"
-        placeholder="Nhập MNV, Họ tên, CCCD hoặc SĐT">
+        <button onclick="openListPage()">
+            Danh Sách Nhân Viên
+        </button>
 
-    <button onclick="searchEmployee()">
-        Tìm kiếm
-    </button>
+    </div>
 
-    <div id="result"></div>
+    <script>
 
-</div>
+        function openListPage()
+        {
+            window.location.href = "ListPages.html";
+        }
 
-<script>
-
-let employees = [];
-
-loadExcel();
-
-async function loadExcel() {
-
-    try {
-
-        const response = await fetch("dataExcel.xlsx");
-
-        const data = await response.arrayBuffer();
-
-        const workbook = XLSX.read(data);
-
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-        employees = XLSX.utils.sheet_to_json(sheet);
-
-        console.log("Loaded:", employees.length);
-
-    }
-    catch(error) {
-
-        document.getElementById("result").innerHTML =
-            "<p class='error'>Không thể đọc file Excel.</p>";
-
-        console.error(error);
-    }
-}
-
-function searchEmployee() {
-
-    const keyword =
-        document.getElementById("txtSearch")
-        .value
-        .trim()
-        .toLowerCase();
-
-    if(keyword === "") return;
-
-    const results = employees.filter(item => {
-
-        return (
-            String(item["MNV"] || "")
-            .toLowerCase()
-            .includes(keyword)
-
-            ||
-
-            String(item["HOVATEN"] || "")
-            .toLowerCase()
-            .includes(keyword)
-
-            ||
-
-            String(item["CANCUOC"] || "")
-            .toLowerCase()
-            .includes(keyword)
-
-            ||
-
-            String(item["DIENTHOAI"] || "")
-            .toLowerCase()
-            .includes(keyword)
-        );
-
-    });
-
-    renderResults(results);
-}
-
-function renderResults(data) {
-
-    const result = document.getElementById("result");
-
-    if(data.length === 0) {
-
-        result.innerHTML =
-            "<p class='notfound'>Không tìm thấy dữ liệu.</p>";
-
-        return;
-    }
-
-    let html = "";
-
-    data.forEach(item => {
-
-        html += `
-        <div class="card">
-
-            <div><b>MNV:</b> ${item["MNV"] || ""}</div>
-
-            <div><b>HỌ VÀ TÊN:</b> ${item["HỌ VÀ TÊN"] || ""}</div>
-
-            <div><b>NGÀY SINH:</b> ${item["NGÀY SINH"] || ""}</div>
-
-            <div><b>CĂN CƯỚC:</b> ${item["CĂN CƯỚC"] || ""}</div>
-
-            <div><b>ĐIỆN THOẠI:</b> ${item["ĐIỆN THOẠI"] || ""}</div>
-
-        </div>
-        `;
-    });
-
-    result.innerHTML = html;
-}
-
-</script>
+    </script>
 
 </body>
+
 </html>
