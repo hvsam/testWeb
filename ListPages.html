@@ -1,49 +1,32 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Nhân Viên</title>
-
     <link rel="stylesheet" href="style.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-
 <body>
-
     <h2>Thông Tin Nhân Viên</h2>
-
     <div class="detail-panel">
-
         <div class="photo-panel">
             <img id="photo" src="" alt="No Image">
         </div>
-
         <div class="info-panel">
-
             <label>MNV</label>
             <input type="text" id="txtMNV" readonly>
-
             <label>HỌ VÀ TÊN</label>
             <input type="text" id="txtName" readonly>
-
             <label>NGÀY SINH</label>
             <input type="text" id="txtBirth" readonly>
-
             <label>CĂN CƯỚC</label>
             <input type="text" id="txtCCCD" readonly>
-
             <label>ĐIỆN THOẠI</label>
             <input type="text" id="txtPhone" readonly>
-
         </div>
-
     </div>
-
     <h2>Danh Sách Nhân Viên</h2>
-
     <table id="employeeTable">
         <thead>
             <tr>
@@ -57,52 +40,32 @@
         <tbody>
         </tbody>
     </table>
-
     <script>
-
         let employees = [];
-
         loadExcel();
-
         async function loadExcel() {
-
             try {
-
                 const response = await fetch("dataExcel.xlsx");
-
                 const data = await response.arrayBuffer();
-
                 const workbook = XLSX.read(data);
-
                 const sheet =
                     workbook.Sheets[workbook.SheetNames[0]];
-
                 employees =
                     XLSX.utils.sheet_to_json(sheet);
-
                 buildTable();
-
             }
             catch (error) {
-
                 console.error(error);
-
                 alert("Không đọc được file dataExcel.xlsx");
             }
         }
-
         function buildTable() {
-
             const tbody =
                 document.querySelector("#employeeTable tbody");
-
             tbody.innerHTML = "";
-
             employees.forEach(emp => {
-
                 const tr =
                     document.createElement("tr");
-
                 tr.innerHTML = `
                     <td>${emp["MNV"] || ""}</td>
                     <td>${emp["HỌ VÀ TÊN"] || ""}</td>
@@ -110,82 +73,53 @@
                     <td>${emp["CĂN CƯỚC"] || ""}</td>
                     <td>${emp["ĐIỆN THOẠI"] || ""}</td>
                 `;
-
                 tr.addEventListener("click", () => {
-
                     document
                         .querySelectorAll("#employeeTable tbody tr")
                         .forEach(r =>
                             r.classList.remove("selected-row"));
-
                     tr.classList.add("selected-row");
-
                     showEmployee(emp);
                 });
-
                 tbody.appendChild(tr);
             });
-
             if (employees.length > 0) {
-
                 tbody.rows[0].classList.add("selected-row");
-
                 showEmployee(employees[0]);
             }
         }
-
 function formatDate(value)
 {
     if (!value) return "";
-
     if (typeof value === "number")
     {
         const date = XLSX.SSF.parse_date_code(value);
-
         return String(date.d).padStart(2, "0") + "/" +
                String(date.m).padStart(2, "0") + "/" +
                date.y;
     }
-
     const d = new Date(value);
-
     if (!isNaN(d))
     {
         return String(d.getDate()).padStart(2, "0") + "/" +
                String(d.getMonth() + 1).padStart(2, "0") + "/" +
                d.getFullYear();
     }
-
     return value;
 }
-
 function showEmployee(emp)
 {
-    document.getElementById("txtMNV").value =        emp["MNV"] || "";
-
-    document.getElementById("txtName").value =        emp["HỌ VÀ TÊN"] || "";
-
-    document.getElementById("txtBirth").value =        formatDate(emp["NGÀY SINH"]);
-
-    document.getElementById("txtCCCD").value =        emp["CĂN CƯỚC"] || "";
-
-    document.getElementById("txtPhone").value =        emp["ĐIỆN THOẠI"] || "";
-
+    document.getElementById("txtMNV").value = emp["MNV"] || "";
+    document.getElementById("txtName").value = emp["HỌ VÀ TÊN"] || "";
+    document.getElementById("txtBirth").value = formatDate(emp["NGÀY SINH"]);
+    document.getElementById("txtCCCD").value = emp["CĂN CƯỚC"] || "";
+    document.getElementById("txtPhone").value = emp["ĐIỆN THOẠI"] || "";
     const photo = "images/" + emp["MNV"] + ".jpg";
-
     const img = document.getElementById("photo");
-
     img.onerror = function ()
-    {
-        this.src =
-            "https://via.placeholder.com/200x250?text=No+Photo";
-    };
-
+    {this.src ="https://via.placeholder.com/200x250?text=No+Photo";};
     img.src = photo;
 }
-
     </script>
-
 </body>
-
 </html>
